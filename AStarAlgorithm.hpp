@@ -68,7 +68,7 @@ namespace AStarAlgorithm
 	std::vector<std::pair<size_t, size_t>>
 	AStarAlgorithm<ROW, COL>::getPath(std::pair<size_t, size_t> start, std::pair<size_t, size_t> finish)
 	{
-		auto isValid = [](const std::pair<size_t, size_t>& cell)
+		auto isValid = [](const std::pair<int, int>& cell)
 		{
 			return (cell.first >= 0 && cell.first < ROW) && (cell.second >= 0 && cell.second < COL);
 		};
@@ -84,7 +84,7 @@ namespace AStarAlgorithm
 		};
 		auto calculateEuclidean = [](const std::pair<size_t, size_t>& current, const std::pair<size_t, size_t>& dest) -> float
 		{
-			return sqrt(pow(current.first - dest.first, 2) + pow(current.second - dest.second, 2));
+			return sqrt(pow(int(current.first) - int(dest.first), 2) + pow(int(current.second) - int(dest.second), 2));
 		};
 		auto calculate = (m_metric == METRIC::Manhattan) ? calculateManhattan : calculateEuclidean;
 

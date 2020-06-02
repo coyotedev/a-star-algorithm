@@ -44,7 +44,7 @@ int main() {
 				{
 					std::cout << "\033[1;32m*\033[0m";
 				}
-				else if (it == --vec.end())
+				else if (it == vec.end() - 1)
 				{
 					std::cout << "\033[1;34m*\033[0m";
 				}
