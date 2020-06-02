@@ -41,32 +41,44 @@ namespace AStarAlgorithm
 	public:
 		AStarAlgorithm() = delete;
 
-		AStarAlgorithm(MATRIX<ROW, COL>& grid, METRIC metric)
+		AStarAlgorithm(const MATRIX<ROW, COL>& grid, METRIC metric, bool allowDiagonal = true)
 			: m_grid(grid)
 			, m_metric(metric)
+			, m_allowDiagonal(allowDiagonal)
 		{
 		}
 
-		void setCellBlocked(std::pair<size_t, size_t> pos, bool isBlocked)
+		void setCellBlocked(const std::pair<size_t, size_t>& pos, bool isBlocked)
 		{
 			m_grid.at(pos.first).at(pos.second) = isBlocked;
 		}
 
-		bool isCellBlocked(std::pair<size_t, size_t> pos)
+		bool isCellBlocked(const std::pair<size_t, size_t>& pos)
 		{
 			return not m_grid.at(pos.first).at(pos.second);
 		}
 
-		std::vector<std::pair<size_t, size_t>> getPath(std::pair<size_t, size_t> start, std::pair<size_t, size_t> finish);
+		void setAllowDiagonal(bool allowDiagonal)
+		{
+			m_allowDiagonal = allowDiagonal;
+		}
+
+		bool isAllowDiagonal()
+		{
+			return m_allowDiagonal;
+		}
+
+		std::vector<std::pair<size_t, size_t>> getPath(const std::pair<size_t, size_t>& start, const std::pair<size_t, size_t>& finish);
 
 	private:
 		MATRIX<ROW, COL> m_grid;
 		METRIC m_metric;
+		bool m_allowDiagonal;
 	};
 
 	template<size_t ROW, size_t COL>
 	std::vector<std::pair<size_t, size_t>>
-	AStarAlgorithm<ROW, COL>::getPath(std::pair<size_t, size_t> start, std::pair<size_t, size_t> finish)
+	AStarAlgorithm<ROW, COL>::getPath(const std::pair<size_t, size_t>& start, const std::pair<size_t, size_t>& finish)
 	{
 		auto isValid = [](const std::pair<int, int>& cell)
 		{
@@ -113,7 +125,7 @@ namespace AStarAlgorithm
 						, {{0, 1}, DISTANCE_UNIT_STRAIGHT}	///< EAST
 						, {{0, -1}, DISTANCE_UNIT_STRAIGHT}	///< WEST
 				};
-		if (m_metric == METRIC::Euclidean)
+		if (isAllowDiagonal())
 		{
 			directionOffsets.emplace_back(std::pair<int, int>{-1, 1}, DISTANCE_UNIT_DIAGONAL);	///< NORTH-EAST
 			directionOffsets.emplace_back(std::pair<int, int>{-1, -1}, DISTANCE_UNIT_DIAGONAL);	///< NORTH-WEST
