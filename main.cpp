@@ -55,7 +55,14 @@ int main() {
 			}
 			else
 			{
-				std::cout << " ";
+				if (not grid[i][j])
+				{
+					std::cout << "\033[1;46m \033[0m";
+				}
+				else
+				{
+					std::cout << " ";
+				}
 			}
 		}
 		std::cout << "|" << std::endl;
