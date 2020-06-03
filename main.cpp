@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "AStarAlgorithm.hpp"
+#include "AStarAlgorithm.h"
 #include <algorithm>
 
 constexpr auto ROW = 9;
@@ -8,22 +8,23 @@ constexpr auto COL = 11;
 
 int main() {
 
-	AStarAlgorithm::MATRIX<ROW, COL> grid =
-			{{
-					  { 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1 }
-					, { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
-					, { 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1 }
-			}};
+	AStarAlgorithm::MATRIX grid =
+			{
+					{ 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1
+					, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1
+					, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1
+					, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1
+					, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1
+					, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1
+					, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1
+					, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1
+					, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1 }
+					, {ROW, COL}
+			};
 
-	AStarAlgorithm::AStarAlgorithm<ROW, COL> path(grid, AStarAlgorithm::METRIC::Manhattan);
+	AStarAlgorithm::AStarAlgorithm path(AStarAlgorithm::METRIC::Manhattan);
 
-	auto vec = path.getPath({8, 0}, {0, 10});
+	auto vec = path.getPath(grid, {8, 0}, {0, 10});
 
 	for (const auto& it : vec)
 	{
@@ -55,7 +56,7 @@ int main() {
 			}
 			else
 			{
-				if (not grid[i][j])
+				if (not grid.first[i*COL + j])
 				{
 					std::cout << "\033[1;46m \033[0m";
 				}
